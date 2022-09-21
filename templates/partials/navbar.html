@@ -1,0 +1,217 @@
+{% load static %} {% block navbar %}
+<!-- Start Navbar -->
+<nav class="navbar navbar-expand-lg fixed-top sticky mx-auto" id="navbar">
+  <div class="container">
+    <a href="{% url 'home' %}" class="navbar-brand me-4">
+      <img
+        src="{% static 'images/logo-light.png'%}"
+        class="logo-light"
+        alt=""
+        height="120"
+      />
+      <img
+        src="{% static 'images/logo-dark.png'%}"
+        class="logo-dark"
+        alt=""
+        height="120"
+      />
+    </a>
+
+    <div class="navbar-header">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbar-collapse-1"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="mdi mdi-menu"></span>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+      <ul class="nav navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link sub-menu-item" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sub-menu-item" href="{% url 'about' %}">About</a>
+        </li>
+        {% comment %} <li class="nav-item">
+          <a class="nav-link sub-menu-item" href="{% url 'services' %}"
+            >Services</a
+          >
+        </li> {% endcomment %}
+        <li class="nav-item dropdown parent-menu-item">
+          <a
+            class="nav-link menu-item dropdown-toggle"
+            data-bs-toggle="dropdown"
+            href="javascript:void(0)"
+            role="button"
+            aria-expanded="false"
+            >Shop</a
+          >
+          <ul class="dropdown-menu border-0">
+            <li class="nav-item">
+              <a class="nav-link sub-menu-item" href="{% url 'products' %}"
+                >Products</a
+              >
+            </li>
+            {% comment %} <li class="nav-item">
+              <a class="nav-link sub-menu-item" href="{% url 'product-list' %}"
+                >Product List</a
+              >
+            </li> {% endcomment %}
+            {% comment %} <li class="nav-item">
+              <a
+                class="nav-link sub-menu-item"
+                href="{% url 'product-detail' %}"
+                >Product Details</a
+              >
+            </li> {% endcomment %}
+            <li class="nav-item">
+              <a class="nav-link sub-menu-item" href="{% url 'product-cart' %}"
+                >Cart</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link sub-menu-item"
+                href="{% url 'product-checkout' %}"
+                >Checkout</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        {% comment %} <li class="nav-item dropdown parent-menu-item">
+          <a
+            class="nav-link menu-item dropdown-toggle"
+            data-bs-toggle="dropdown"
+            href="javascript:void(0)"
+            role="button"
+            aria-expanded="false"
+            >Portfolio</a
+          >
+          <ul class="dropdown-menu border-0">
+            <li class="nav-item">
+              <a class="nav-link sub-menu-item" href="{% url 'work' %}">Work</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link sub-menu-item" href="{% url 'work-detail' %}"
+                >Work Detail</a
+              >
+            </li>
+          </ul>
+        </li> {% endcomment %}
+        {% comment %} <li class="nav-item dropdown parent-menu-item">
+          <a
+            class="nav-link menu-item dropdown-toggle"
+            data-bs-toggle="dropdown"
+            href="javascript:void(0)"
+            role="button"
+            aria-expanded="false"
+            >Blog</a
+          >
+          <ul class="dropdown-menu border-0">
+            <li class="nav-item">
+              <a class="nav-link sub-menu-item" href="{% url 'blog-listing' %}"
+                >Blog Listing</a
+              >
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link sub-menu-item" href="{% url 'blog-grid' %}"
+                >Blog Grid</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link sub-menu-item"
+                href="{% url 'blog-single-post' %}"
+                >Single Post</a
+              >
+            </li> {% endcomment %}
+          {% comment %} </ul>
+        </li> {% endcomment %}
+        <li class="nav-item">
+          <a class="nav-link sub-menu-item" href="{% url 'contact' %}"
+            >Contact</a
+          >
+        </li>
+
+        {% comment %} <li class="nav-item">
+          <a class="nav-link sub-menu-item" href="{% url 'register' %}"
+            >register</a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link sub-menu-item" href="{% url 'login' %}">login</a>
+        </li> {% endcomment %}
+
+        {% if user.is_authenticated %}
+        <!---->
+        <li 
+        {% if 'dashboard' in request.path %}
+        class="nav-item active mr-3"
+        {% else %}
+        class="nav-item mr-3"
+        {% endif %} >
+          <a class="nav-link" href="{% url 'dashboard' %}">welcome {{ user.username }}</a
+          >
+        </li>
+        <!---->
+        <li class="nav-item mr-3">
+          <a href="javascript:{document.getElementById('logout').submit()}" class="nav-link">
+            <i class="fas fa-sign-in-alt"></i>logout
+          </a>
+            <form action="{% url 'logout' %}" method="POST" id="logout">
+              {% csrf_token %}
+              <input type="hidden">
+            </form> 
+        </li>
+        {% else %}
+        <!---->
+        <li
+        {% if 'register' in request.path %}
+        class="nav-item active mr-3"
+        {% else %}
+        class="nav-item mr-3"
+        {% endif %}>
+           <a class="nav-link sub-menu-item" href="{% url 'register' %}">
+            <i class="fas fa-user-plus"></i> Register</a>
+
+        </li>
+        <li {% if 'login' in request.path %}
+        class="nav-item active mr-3"
+        {% else %}
+        class="nav-item mr-3"
+        {% endif %}>
+            <a class="nav-link sub-menu-item" href="{% url 'login' %}">
+              <i class="fas fa-sign-in-alt"></i>
+  
+              Login</a>
+  
+            </li>
+            {% endif %}  
+            
+        <li class="nav-item">
+          <a class="nav-link sub-menu-item" href="{% url 'search' %}"
+            ><img
+            src="{% static 'images/magnifying-glass.png'%}" height="20px"></a>
+          
+        </li>
+        
+
+
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- END NAVBAR -->
+{% endblock navbar %}
+
+
+

@@ -1,0 +1,369 @@
+{% extends 'partials/base.html' %} {% load static %} {% block content %}
+{% load humanize %}
+<!-- Start Title -->
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-9">
+        <div class="page-title">
+          {% comment %}<h2 class="text-dark fw-light lh-base mt-5">
+            All you need is in your
+            <span class="fw-medium title">cart</span> now.
+          </h2>{% endcomment %}
+          <h2 class="text-dark fw-light lh-base mt-5">
+            Get Your Favorite Plants in 
+            <span class="fw-medium title">cart</span> now.
+          </h2>
+          {% comment %}<p class="fs-16 text-muted mb-0">
+            Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat
+            ipsum, nec sagittis sem nibh id elit. Proin gravida nibh vel velit
+            auctor Aenean sollicitudin, adipisicing elit sed lorem quis bibendum
+            auctor.
+          </p>{% endcomment %}
+          <p class="fs-16 text-muted mb-0">
+            Go green and grow more plants together. Get green plants straight to your home and worksplace from ATSM Plants.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- end row -->
+  </div>
+  <!-- end container -->
+</section>
+<!-- End Title -->
+
+<section class="sm-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="table-responsive mt-4">
+          <table class="table caption-top table-borderless pro-table">
+            <thead class="bg-light text-dark">
+              <tr>
+                <th scope="col" class="fw-semibold mt-2"></th>
+                <th scope="col" class="fw-semibold mt-2">Products</th>
+                <th scope="col" class="fw-semibold mt-2">Price</th>
+                {% comment %}<th scope="col" class="fw-semibold mt-2">Discount</th>{% endcomment %}
+                <th scope="col" class="fw-semibold mt-2">Quantity</th>
+                <th scope="col" class="fw-semibold mt-2">SubTotal</th>
+                {% comment %} <th scope="col" class="fw-semibold mt-2"></th> {% endcomment %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in cart %}
+              <tr class="align-middle">
+                <th scope="row">
+                  <img
+                    class="img-fluid rounded"
+                    src="{{ item.product.photo_main.url }}"
+                    width="125"
+                    alt=""
+                  />
+                </th>
+
+                <td>
+                  <div class="fs-16 fw-medium">{{ item.product }}</div>
+                  {% comment %} {% if item.product.discount_percent != 0 %}
+                  <div class="price d-inline-block">
+                    <ins
+                      class="text-dark pe-1 fs-15 fw-semibold text-decoration-none"
+                      >${{ item.product.discount }}</ins
+                    >
+                    <del class="text-muted fs-15">$ {{ item.price }}</del>
+                  </div> {% endcomment %}
+                </td>
+                <td>
+                  {% comment %}<div>
+                    <span
+                      class="badge bg-soft-primary text-primary rounded-3 fs-14 fw-bold py-2"
+                      >-{{ item.product.discount_percent }}%</span
+                    >
+                  </div> {% endcomment %}
+                  {% comment %} {% else %} {% endcomment %}
+                  <div class="price d-inline-block">
+                    <ins
+                      class="text-dark pe-1 fs-15 fw-semibold text-decoration-none"
+                      >$ {{ item.price|intcomma }}</ins
+                    >
+                    {% comment %} <del class="text-muted fs-15"></del> {% endcomment %}
+                  </div>
+                </td>
+                
+                  {% comment %} <div>
+                    <span
+                      class="badge bg-soft-primary text-primary rounded-3 fs-14 fw-bold py-2"
+                      ></span
+                    >
+                  </div> {% endcomment %}
+                  {% comment %} {% endif %} {% endcomment %}
+                <td>
+                  <div>
+                      <div class="input-group">
+                          <input type="text" class="form-control" value="{{item.quantity}}" size="1" autofocus/>
+                          <div class="input-group-append">
+                            <form action="{% url 'increase' item.id %}" method="POST" id="form1">
+                              {% csrf_token %} 
+                              <style>
+                                .button {
+                                  border: none;
+                                  color: white;
+                                  padding: 15px 5px;
+                                  text-align: center;
+                                  text-decoration: none;
+                                  display: inline-block;
+                                  font-size: 12px;
+                                  margin: 10px 2px;
+                                  cursor: pointer;
+                                }
+                                
+                                .button3 {
+                                  background-color: #b8dbcd;
+                                  border: 2px solid #4CAF50;
+                                  color: black;
+                                } /* Green */
+                              </style>
+
+                              <label for="ID"></label>
+                              <input
+                                type="hidden"
+                                name="aaaa"
+                                value="{{item.product.id}}"
+                              /><br/>
+                              <label for="QTY"></label>
+                              <input
+                                type="hidden"
+                                name="quantity2"
+                                value="{{item.quantity}}"
+                                onclick="()=>{document.getElementByID('form1').submit();}"
+                              /> 
+                              <button class="button button3" type="submit" formaction="{% url 'increase' item.id %}" formmethod="post">+</button>
+                            </form> 
+                          </div>
+
+                          <!-- Decrease qty by 1 -->
+                          <div class="input-group-append">
+                              <form action="{% url 'decrease' item.id %}" method="POST">
+                                {% csrf_token %} 
+                                <style>
+                                  .button {
+                                    border: none;
+                                    color: white;
+                                    padding: 15px 5px;
+                                    text-align: center;
+                                    text-decoration: none;
+                                    display: inline-block;
+                                    font-size: 12px;
+                                    margin: 10px 2px;
+                                    cursor: pointer;
+                                  }
+
+                                  .button2 {
+                                    background-color: #b8dbcd;
+                                    border: 2px solid #4CAF50;
+                                    color: black;
+                                  } /* Green */
+                                  
+                                </style>
+
+                                <label for="ID"></label>
+                                <input
+                                  type="hidden"
+                                  name="item_id"
+                                  value="{{item.id}}"
+                                /><br/>
+                                <label for="QTY"></label>
+                                <input
+                                  type="hidden"
+                                  name="quantity"
+                                  value="1"
+                                />
+                              <button class="button button2" type="submit" formaction="{% url 'decrease' item.id %}" formmethod="post">-</button>
+                              </form> 
+                          </div>
+                        </div>
+                  </div>
+                </td>
+
+                <td>
+                  <div>
+                    <span
+                      class="badge bg-soft-white text-primary rounded-3 fs-14 fw-bold py-2"
+                      >${{ item.subtotal|intcomma }}</span>
+                  </div>
+                
+
+                
+                  <!-- START: Remove specific item in the cart -->
+
+
+                <form action="{% url 'remove_product' item.id %}" method="POST">
+                  {% csrf_token %} 
+                  <style>
+                    .button {
+                      border: none;
+                      color: white;
+                      padding: 5px 5px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 12px;
+                      margin: 3px 2px;
+                      cursor: pointer;
+                    }
+                    
+                    .button1 {background-color: #6da891;} /* Green */
+                  </style>
+
+                  <label for="ID"></label>
+                  <input
+                    type="hidden"
+                    name="item_id"
+                    value="{{item.id}}"
+                  /><br/>
+                  <label for="QTY"></label>
+                  <input
+                    type="hidden"
+                    name="quantity"
+                    value="{{item.quantity}}"
+                  />
+                  <button class="button button1" type="submit">Remove</button>
+                </form> 
+
+                <!-- END: Remove specific item in the cart -->
+                </td>
+                {% comment %}</td>{% endcomment %}
+
+
+
+                {% comment %}<!-- START: Remove specific item in the cart -->
+                <form action="{% url 'remove_product' item.id %}" method="POST">
+                  {% csrf_token %} 
+                  <label for="ID"></label>
+                  <input
+                    type="hidden"
+                    name="item_id"
+                    value="{{item.id}}"
+                  /><br/>
+                  <label for="QTY"></label>
+                  <input
+                    type="hidden"
+                    name="quantity"
+                    value="{{item.quantity}}"
+                  />
+                  <button type="submit">Remove</button>
+                </form>{% endcomment %}
+                <!-- END: Remove specific item in the cart -->
+              
+
+                {% comment %}<a href="javascript:void(0)" class="text-dark fw-semibold"
+                  >Remove <span class="mx-3">|</span> Add To Wishlist</a
+                >{% endcomment %}
+              </tr>
+              <tr class="align-middle">
+
+                {% endfor %} 
+
+                <form action="{% url 'empty_cart' %}" method="POST">
+                  {% csrf_token %}
+                  <style>
+                    .button {
+                      border: none;
+                      color: white;
+                      padding: 5px 5px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 12px;
+                      margin: 3px 2px;
+                      cursor: pointer;
+                    }
+                    
+                    .button1 {background-color: #6da891;} /* Green */
+                  </style>
+                  
+                  {% comment %} <label for="ID"></label>
+                  <input
+                    type="hidden"
+                    name="product"
+                    value="{{product.id}}"
+                  /><br /><br />
+                  {% endcomment %}
+                  <button class="button button1" type="submit">CLEAR ALL</button>
+                </form> 
+
+            </tbody>
+          </table>
+        </div>
+        <div class="row border-top">
+          <div class="col-lg-6 mt-4">
+            {% comment %}<div class="mb-3 row g-2 align-items-center">
+              <label
+                for="inputCode"
+                class="col-sm-3 col-3 col-form-label text-uppercase text-dark fw-semibold"
+                ><i
+                  class="mdi mdi-tag-multiple fs-18 text-dark align-middle"
+                ></i>
+                Apply Coupen</label
+              >
+              <div class="col-sm-6 col-5">
+                <input
+                  type="text"
+                  class="form-control bg-light border"
+                  id="inputCode"
+                />
+              </div>
+              <div class="col-sm-3 col-4">
+                <a href="javascript:void(0)" class="btn btn-secondary"
+                  >Apply <i class="icon-xs" data-feather="arrow-right"></i
+                ></a>
+              </div>
+            </div>{% endcomment %}
+          </div>
+          <div class="col-lg-4 offset-lg-2 mt-4">
+            <div>
+              <ul class="list-unstyled list-inline border-bottom py-3 mb-0">
+                <li class="list-inline-item">
+                  <h5 class="fs-15 mb-0 fw-semibold">Price :</h5>
+                </li>
+                <li class="list-inline-item float-end text-dark">${{ cart.total|intcomma }}</li>
+              </ul>
+              <ul class="list-unstyled list-inline border-bottom py-3 mb-0">
+                <li class="list-inline-item">
+                  <h5 class="fs-15 mb-0 fw-semibold">Delivery Charge :</h5>
+                </li>
+                <li class="list-inline-item float-end text-dark text-primary">
+                  Free
+                </li>
+              </ul>
+              
+              {% comment %} <ul class="list-unstyled list-inline border-bottom py-3 mb-0">
+                <li class="list-inline-item">
+                  <h5 class="fs-15 mb-0 fw-semibold">Discount :</h5>
+                </li>
+                <li class="list-inline-item float-end text-dark">N/A</li>
+              </ul> {% endcomment %}
+              <ul class="list-unstyled list-inline py-3 mb-0">
+                <li class="list-inline-item">
+                  <h5 class="fs-16 mb-0 fw-semibold">Total :</h5>
+                </li>
+                <li class="list-inline-item float-end text-dark">${{ cart.total|intcomma }}</li>
+                {% comment %} <li
+                  class="list-inline-item fs-16 fw-semibold text-dark float-end"
+                >${{ cart.total }}</li> {% endcomment %}
+              </ul>
+              <a
+                href="{% url 'product-checkout' %}"
+                class="btn btn-primary mt-3 float-end"
+                >Proceed To Checkout
+                <i class="icon-xs icon" data-feather="arrow-right"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock content %}

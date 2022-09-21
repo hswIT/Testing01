@@ -1,0 +1,508 @@
+{% extends 'partials/base.html' %} {% load static %} {% block content %}
+<!---->
+{% load humanize %}
+<!-- Start Title -->
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-9">
+        <div class="page-title">
+          <h2 class="text-dark fw-light lh-base mt-5">
+            {{ product.name }}<span class="fw-medium title"
+              ></span
+            >
+          </h2>
+          <p class="fs-16 text-muted mb-0">
+             {{ product.description }}
+            
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- end row -->
+  </div>
+  <!-- end container -->
+</section>
+<!-- End Title -->
+
+<section class="sm-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="col-md-5 mt-4">
+            <div class="position-relative">
+              <img
+                class="img-fluid rounded-3"
+                src="{{ product.photo_main.url }}"
+                alt=""
+              />
+              {% comment %} {% if product.discount_percent != 0 %}
+              <span
+                class="text-dark badge bg-light rounded-3 fs-14 fw-bold position-absolute top-0 start-0 mt-2 ms-2 py-2"
+                >-{{ product.discount_percent }} % off</span
+              >
+              {% endif %} {% endcomment %}
+            </div>
+
+          </div>
+          {% comment %} {% if product.discount_percent != 0 %} {% endcomment %}
+          <div class="col-md-7 mt-4">
+            <div class="pro-detail-content">
+              <div class="price my-3">
+                <ins
+                  class="pe-2 fs-18 text-primary fw-semibold text-decoration-none"
+                  >${{ product.price|intcomma }}</ins
+                >
+                {% comment %} <del class="text-muted fs-18">${{ product.price }}</del>
+              </div>
+          {% else %}
+          <div class="col-md-7 mt-4">
+            <div class="pro-detail-content">
+              <div class="price my-3">
+                <ins
+                  class="pe-2 fs-18 text-success fw-semibold text-decoration-none"
+                  >${{ product.discount }}</ins
+                >
+                <del class="text-muted fs-18"></del>
+              </div>
+          {% endif %} {% endcomment %}
+
+              {% comment %} <p class="text-muted fs-16 my-3">{{ product.description }}</p> {% endcomment %}
+              <div class="rating my-3">
+                {% comment %}<i class="mdi mdi-star fs-20 text-warning d-inline-block"></i>
+                <h5 class="d-inline-block fs-16 mb-0">5.0</h5>{% endcomment %}
+              </div>
+
+              <div class="details mb-4">
+                <ul class="list-unstyled">
+                  <li class="text-muted py-1">
+                    <i data-feather="arrow-right" class="icon-xxs me-2"></i>
+                    Generally delivered in 3 - 5 days
+                  </li>
+                  <li class="text-muted py-1">
+                    <i data-feather="arrow-right" class="icon-xxs me-2"></i>
+                    Size: {{ product.size }}
+                  </li>
+                  <li class="text-muted py-1">
+                    <i data-feather="arrow-right" class="icon-xxs me-2"></i>
+                    Light: {{ product.light }}
+                  </li>
+                  <li class="text-muted py-1">
+                    <i data-feather="arrow-right" class="icon-xxs me-2"></i>
+                    Care: {{ product.care }}
+                  </li>
+                </ul>
+                <ul class="list-unstyled list-inline"></ul>
+              </div>
+
+              <div class="qty mb-4">
+                <h6 class="d-inline-block fw-semibold">Quantity:</h6>
+                <!-- Adding quantity by Matt -->
+                <form action="{% url 'add_product' product.id %}" method="POST">
+                  {% csrf_token %}
+                  <label for="ID"></label>
+                  <input
+                    type="hidden"
+                    name="product"
+                    value="{{product.id}}"
+                  /><br /><br />
+
+                  <label for="QTY">quantity</label>
+                  <input
+                    type="text"
+                    id="quantity"
+                    name="quantity"
+                  /><br /><br />
+                  <input type="Submit" value="Add to Cart" />
+                </form>
+                <!-- Remove item from cart -->
+                {% comment %} <form
+                  action="{% url 'remove_product' product.id %}"
+                  method="POST"
+                >
+                  {% csrf_token %}
+                  <label for="ID"></label>
+                  <input
+                    type="hidden"
+                    name="product"
+                    value="{{product.id}}"
+                  /><br /><br />
+
+                  <label for="QTY"></label>
+                  <input
+                    type="text"
+                    id="quantity"
+                    name="quantity"
+                  /><br /><br />
+
+                  <input type="submit" value="Submit" />
+                </form> {% endcomment %}
+
+                <!-- Adding completed -->
+              </div>
+              {% comment %}<div class="color mb-4">
+                <h6 class="d-inline-block fw-semibold">Color :</h6>
+                <ul
+                  class="d-inline-block list-unstyled list-inline align-middle ms-3 mb-0"
+                >
+                  <li class="list-inline-item me-0">
+                    <a href="javascript:void(0)"
+                      ><i class="mdi mdi-invert-colors fs-5 text-success"></i
+                    ></a>
+                  </li>
+                  <li class="list-inline-item me-0">
+                    <a href="javascript:void(0)"
+                      ><i class="mdi mdi-invert-colors fs-5 text-primary"></i
+                    ></a>
+                  </li>
+                  <li class="list-inline-item me-0">
+                    <a href="javascript:void(0)"
+                      ><i class="mdi mdi-invert-colors fs-5 text-danger"></i
+                    ></a>
+                  </li>
+                  <li class="list-inline-item me-0">
+                    <a href="javascript:void(0)"
+                      ><i class="mdi mdi-invert-colors fs-5 text-warning"></i
+                    ></a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="javascript:void(0)"
+                      ><i class="mdi mdi-invert-colors fs-5 text-dark"></i
+                    ></a>
+                  </li>
+                </ul>
+              </div>
+              <div class="availability d-flex mb-4">
+                <h6 class="fw-semibold">Availability :</h6>
+                <p class="text-muted fs-15 ms-4">In Stock</p>
+              </div>{% endcomment %}
+              {% comment %}<div class="hover-content">
+                <a
+                  href="{% url 'product-detail' %}"
+                  class="btn btn-primary me-2 my-2"
+                >
+                  <i data-feather="shopping-cart" class="icon-xs me-2"></i>
+                  <button>Add To Cart</button></a
+                >
+                <a
+                  href="{% url 'product-cart' %}"
+                  class="btn btn-secondary my-2"
+                >
+                  <i data-feather="heart" class="icon-xs me-2"></i> Wishlist</a
+                >
+              </div> {% endcomment %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end pro-detail -->
+
+<!-- detail tab -->
+{% comment %} <section class="section bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <nav class="pro-detail-area">
+          <div
+            class="nav nav-tabs border-bottom detail-title"
+            id="nav-tab"
+            role="tablist"
+          >
+            <a
+              class="nav-link border-0 active"
+              id="nav-home-tab"
+              data-bs-toggle="tab"
+              href="#nav-home"
+              role="tab"
+              aria-controls="nav-home"
+              aria-selected="true"
+              >Description</a
+            > {% endcomment %}
+            {% comment %}<a
+              class="nav-link border-0"
+              id="nav-profile-tab"
+              data-bs-toggle="tab"
+              href="#nav-profile"
+              role="tab"
+              aria-controls="nav-profile"
+              aria-selected="false"
+              >Reviews</a
+            >{% endcomment %}
+          {% comment %} </div>
+        </nav>
+        <div class="tab-content py-4" id="nav-tabContent">
+          <div
+            class="tab-pane fade show active"
+            id="nav-home"
+            role="tabpanel"
+            aria-labelledby="nav-home-tab"
+          >
+            <p class="text-muted fs-16">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Vestibulum sagittis orci ac odio dictum tincidunt. Donec ut metus
+              leo. Class aptent taciti sociosqu ad litora torquent per conubia
+              nostra, per inceptos himenaeos. Sed luctus, dui eu sagittis
+              sodales, nulla nibh sagittis augue, vel porttitor diam enim non
+              metus. Vestibulum aliquam augue neque. Phasellus tincidunt odio
+              eget ullamcorper efficitur. Cras placerat ut turpis pellentesque
+              vulputate. Nam sed consequat tortor. Curabitur finibus sapien
+              dolor. Ut eleifend tellus nec erat pulvinar dignissim. Nam non
+              arcu purus. Vivamus et massa massa. <br />
+              The full monty brilliant young delinquent burke naff baking cakes
+              the wireless argy-bargy smashing, squiffy chimney pot I he nicked
+              it twit brolly spend a penny he legged it, cup of tea is ruddy
+              grub.!
+            </p> {% endcomment %}
+
+            {% comment %}<div class="row text-muted">
+              <div class="col-md-6">
+                <ul class="list-unstyled">
+                  <li class="py-1">
+                    <i class="mdi mdi-circle-medium text-primary"></i> Claritas
+                    est etiam processus dynamicus.
+                  </li>
+                  <li class="py-1">
+                    <i class="mdi mdi-circle-medium text-primary"></i> Mirum est
+                    notare quam littera.
+                  </li>
+                  <li class="py-1">
+                    <i class="mdi mdi-circle-medium text-primary"></i> Nam liber
+                    tempor cum soluta nobis eleifend.
+                  </li>
+                  <li class="py-1">
+                    <i class="mdi mdi-circle-medium text-primary"></i> Duis
+                    autem vel eum iriure dolor.
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <ul class="list-unstyled">
+                  <li class="py-1">
+                    <i class="mdi mdi-circle-medium text-primary"></i> Claritas
+                    est etiam processus dynamicus.
+                  </li>
+                  <li class="py-1">
+                    <i class="mdi mdi-circle-medium text-primary"></i> Mirum est
+                    notare quam littera.
+                  </li>
+                  <li class="py-1">
+                    <i class="mdi mdi-circle-medium text-primary"></i> Nam liber
+                    tempor cum soluta nobis eleifend.
+                  </li>
+                  <li class="py-1">
+                    <i class="mdi mdi-circle-medium text-primary"></i> Duis
+                    autem vel eum iriure dolor.
+                  </li>
+                </ul>
+              </div>
+            </div>{% endcomment %}
+          </div>
+
+          {% comment %} <div
+            class="tab-pane fade"
+            id="nav-profile"
+            role="tabpanel"
+            aria-labelledby="nav-profile-tab"
+          >
+            <h6 class="lh-base fw-medium">5 Ratings & 2 Review</h6>
+            <ul class="list-unstyled my-4">
+              <li class="list-inline d-flex py-3">
+                <div>
+                  <a href="javascript:void(0)">
+                    <img
+                      class="rounded-circle img-thumbnail"
+                      src="{% static 'images/clients/client-1.jpg'%}"
+                      alt=""
+                    />
+                  </a>
+                </div>
+                <div class="ps-4">
+                  <h6 class="d-inline-block fs-16 mb-0">John Barrows</h6>
+                  <div class="rating d-inline-block ps-sm-4">
+                    <i
+                      class="mdi mdi-star fs-16 text-warning d-inline-block"
+                    ></i>
+                    <h5 class="d-inline-block fs-16">5.0</h5>
+                  </div>
+                  <p class="text-muted">24th January, 2021</p>
+                  <p class="text-muted fs-16">
+                    Animi tempora pellentesque, tristique gravida dui, deleniti
+                    quod repellendus voluptatum, aptent adipisci young
+                    delinquent burke naff baking cakes the wireless argy-bargy
+                    smashpend a penny he legged it.
+                  </p>
+                </div>
+              </li>
+              <li class="list-inline d-flex py-3">
+                <div>
+                  <a href="javascript:void(0)">
+                    <img
+                      class="rounded-circle img-thumbnail"
+                      src="{% static 'images/clients/client-2.jpg'%}"
+                      alt=""
+                    />
+                  </a>
+                </div>
+                <div class="ps-4">
+                  <h6 class="d-inline-block fs-16 mb-0">James Marks</h6>
+                  <div class="rating d-inline-block ps-sm-4">
+                    <i
+                      class="mdi mdi-star fs-16 text-warning d-inline-block"
+                    ></i>
+                    <h5 class="d-inline-block fs-16">4.9</h5>
+                  </div>
+                  <p class="text-muted">2nd January, 2021</p>
+                  <p class="text-muted fs-16">
+                    Animi tempora pellentesque, tristique gravida dui, deleniti
+                    quod repellendus voluptatum, aptent adipisci young
+                    delinquent burke naff baking cakes the wireless argy-bargy
+                    smashpend a penny he legged it.
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div> {% endcomment %}
+        <!-- end nav -->
+        {% comment %}<div>
+          <h6 class="lh-base fw-semibold mt-4 mb-3">Add Your Review</h6>
+          <form method="post">
+            <div class="row g-4 mb-2">
+              <div class="col-lg-6">
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Your name"
+                  />
+                  <label class="text-muted">Your name</label>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-floating mb-3">
+                  <input
+                    type="email"
+                    class="form-control"
+                    placeholder="Your email"
+                  />
+                  <label class="text-muted">Email address</label>
+                </div>
+              </div>
+            </div>
+            <div class="row g-4 mb-2">
+              <div class="col-lg-12">
+                <div class="form-floating mb-3">
+                  <textarea
+                    class="form-control"
+                    placeholder="Your Message...."
+                    style="height: 100px"
+                  ></textarea>
+                  <label class="text-muted">Your Review</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <ul class="list-unstyled list-inline mb-0">
+                <li class="fw-semibold text-muted list-inline-item lh-lg">
+                  Add Your Review :
+                </li>
+                <li class="list-inline-item me-0">
+                  <i class="mdi mdi-star fs-17 text-warning"></i>
+                </li>
+                <li class="list-inline-item me-0">
+                  <i class="mdi mdi-star fs-17 text-warning"></i>
+                </li>
+                <li class="list-inline-item me-0">
+                  <i class="mdi mdi-star fs-17 text-warning"></i>
+                </li>
+                <li class="list-inline-item me-0">
+                  <i class="mdi mdi-star fs-17 text-warning"></i>
+                </li>
+                <li class="list-inline-item me-0">
+                  <i class="mdi mdi-star-half-full fs-17 text-warning"></i>
+                </li>
+              </ul>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 mt-3">
+                <a href="javascript:void(0)" class="btn btn-primary"
+                  >Send Review <i class="icon-xs" data-feather="arrow-right"></i
+                ></a>
+              </div>
+            </div>
+          </form>
+        </div>{% endcomment %}
+      </div>
+    </div>
+    <!-- end row -->
+  </div>
+</section>
+<!-- end detail tab -->
+
+<!-- start brand-logo -->
+{% comment %}<section class="client-section section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center mb-5">
+        <h4 class="fw-semibold border-bottom d-inline-block text-dark pb-3">
+          Trusted by Thousands
+        </h4>
+      </div>
+    </div>
+    <div class="row justify-content-between">
+      <div class="col-md-auto col-12 mt-3 py-lg-0 py-3">
+        <div class="client-box">
+          <img
+            src="{% static 'images/brand/brand-1.png'%}"
+            class="mx-auto d-block img-fluid"
+            alt="client-logo"
+          />
+        </div>
+      </div>
+      <div class="col-md-auto col-12 mt-3 py-lg-0 py-3">
+        <div class="client-box">
+          <img
+            src="{% static 'images/brand/brand-2.png'%}"
+            class="mx-auto d-block img-fluid"
+            alt="client-logo"
+          />
+        </div>
+      </div>
+      <div class="col-md-auto col-12 mt-3 py-lg-0 py-3">
+        <div class="client-box">
+          <img
+            src="{% static 'images/brand/brand-3.png'%}"
+            class="mx-auto d-block img-fluid"
+            alt="client-logo"
+          />
+        </div>
+      </div>
+      <div class="col-md-auto col-12 mt-3 py-lg-0 py-3">
+        <div class="client-box">
+          <img
+            src="{% static 'images/brand/brand-4.png'%}"
+            class="mx-auto d-block img-fluid"
+            alt="client-logo"
+          />
+        </div>
+      </div>
+      <div class="col-md-auto col-12 mt-3 py-lg-0 py-3">
+        <div class="client-box">
+          <img
+            src="{% static 'images/brand/brand-5.png'%}"
+            class="mx-auto d-block img-fluid"
+            alt="client-logo"
+          />
+        </div>
+      </div>
+    </div>
+    <!-- end row -->
+  </div>
+  <!-- end container -->
+</section>{% endcomment %}
+<!-- end brand-logo -->
+{% endblock content %}

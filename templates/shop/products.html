@@ -1,0 +1,250 @@
+{% extends 'partials/base.html' %} {% load static %} {% block content %}
+<!---->
+{% load humanize %}
+
+<!-- Start Title -->
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-9">
+        <div class="page-title">
+          {% comment%}<h2 class="text-dark fw-light lh-base mt-5">
+            Launching Spring <span class="fw-medium title">Summer'21</span>
+          </h2>{% endcomment %}
+          <h2 class="text-dark fw-light lh-base mt-5">
+            <span class="fw-medium title">Give Yourself More Green</span>
+          </h2>
+          {% comment %}<p class="fs-16 text-muted mb-0">
+            Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat
+            ipsum, nec sagittis sem nibh id elit. Proin gravida nibh vel velit
+            auctor Aenean sollicitudin, adipisicing elit sed lorem quis bibendum
+            auctor.
+          </p>{% endcomment %}
+          <p class="fs-16 text-muted mb-0">
+            Grab some green plants and enjoy the pleasures from nature.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end container -->
+</section>
+<!-- End Title -->
+
+<!-- Remove the below -->
+<section class="sm-section">
+  <div class="container">
+      </div>
+    </div> 
+    <!-- END ROW -->
+    
+      <div class="container" class="col-md-9">
+        <div class="row">
+          {% comment %}<div class="col-lg-4 col-md-6">
+            <div class="product-item mt-4">
+              <div class="product-img rounded position-relative">
+                <img
+                  class="img-fluid"
+                  src="{% static 'images/products/pro-1.jpg'%}"
+                  alt=""
+                />
+                <span
+                  class="text-dark badge bg-light rounded-3 fs-14 fw-bold position-absolute top-0 start-0 mt-2 ms-2 py-2"
+                  >-20%</span
+                >
+
+                <div
+                  class="hover-content text-center w-100 position-absolute bottom-0 start-50 translate-middle-x py-2 mb-3"
+                >
+                  <a href="{% url 'product-cart' %}"
+                    ><i
+                      class="mdi mdi-cart-outline fs-22 me-3 pe-3 fw-bolder pro-icon border-end"
+                    ></i
+                  ></a>{% endcomment %}
+                  {% comment %} #marked on 26 Aug 2022
+                  <a href="{% url 'product-detail' %}"
+                    ><i
+                      class="mdi mdi-eye-outline fs-22 me-3 pe-3 fw-bolder pro-icon border-end active"
+                    ></i
+                  ></a>
+                  {% endcomment %} <!--# comment out by MATTHIAS -->
+                  {% comment %}<a href="{% url 'product-cart' %}"
+                    ><i
+                      class="mdi mdi-heart-outline fs-22 fw-bolder pro-icon"
+                    ></i
+                  ></a>
+                </div>
+              </div>
+              <div class="pro-content my-3">
+                <div class="d-flex align-items-center">
+                  <ins
+                    class="pe-2 fs-15 fw-semibold text-decoration-none text-dark" 
+                    >{{ product.price }}</ins
+                  >
+                  <del class="text-muted fs-15">$$$$30</del>
+                  <div class="rating ms-auto">
+                    <i
+                      class="mdi mdi-star fs-18 text-warning d-inline-block"
+                    ></i>
+                    <h5 class="d-inline-block fs-15">5.0</h5>
+                  </div>
+                </div>
+                <a href="{% url 'product-detail' %}">
+                  <p class="text-muted fw-normal lh-base my-1">
+                    Maxbell USB Rechargeable Electronic Flameless
+                  </p>
+                </a>
+              </div>
+            </div>
+          </div> {% endcomment %}
+           <!-- end col --> 
+          
+          <!--start of product item (by Matt)-->
+          <div class = "container" class="col-md-9">
+            <div class="row">
+              <!-- Add code here-->
+              {% if products %} {% for product in products %}
+              <div class="col-lg-4 col-md-6">
+                <div class="product-item mt-4">
+                  <div class="product-img rounded position-relative">
+                    
+                    <img
+                      class="img-fluid"
+                      src="{{ product.photo_main.url }}"
+                      
+                      alt=""
+                    />
+                    
+                    <!--take away the discount portion-->
+                    {% comment %} {% if product.discount_percent != 0 %}
+                    <span
+                      class="text-dark badge bg-light rounded-3 fs-14 fw-bold position-absolute top-0 start-0 mt-2 ms-2 py-2"
+
+                      >-{{ product.discount_percent }} % off</span
+                    >
+                    {% endif %} {% endcomment %}
+
+                    <div
+                      class="hover-content text-center w-100 position-absolute bottom-0 start-50 translate-middle-x py-2 mb-3"
+                    >
+                      <a href="{% url 'product-cart' %}"
+                        ><i
+                          class="mdi mdi-cart-outline fs-22 me-3 pe-3 fw-bolder pro-icon border-end"
+                        ></i
+                      ></a>
+                      <a href="{% url 'product' product.id %}"
+                        ><i
+                          class="mdi mdi-eye-outline fs-22 me-3 pe-3 fw-bolder pro-icon border-end"
+                        ></i
+                      ></a>
+                      {% comment %} <a href="{% url 'product-cart' %}"
+                        ><i
+                          class="mdi mdi-heart-outline fs-22 fw-bolder pro-icon"
+                        ></i
+                      ></a> {% endcomment %}
+                    </div>
+                  </div>
+                  {% comment %} {% if product.discount_percent != 0 %} {% endcomment %}
+                  <div class="pro-content my-3">
+                    <div class="d-flex align-items-center">
+                      <ins
+                        class="pe-2 fs-15 fw-semibold text-decoration-none text-dark"
+                        >$ {{ product.price|intcomma }}</ins
+                      >
+                      <!-- item original price -->
+                      <del class="text-muted fs-15"></del> 
+                  {% comment %} {% else %}
+                  <div class="pro-content my-3">
+                    <div class="d-flex align-items-center">
+                      <ins
+                        class="pe-2 fs-15 fw-semibold text-decoration-none text-dark"
+                        >$ {{ product.discount }}</ins
+                      >
+                  {% endif %} {% endcomment %}
+
+                    </div>
+                    <a href="{% url 'product' product.id %}">
+                      <p class="text-muted fw-normal lh-base my-1">
+                        {{ product.name }}
+                      </p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              <!-- no data -->
+              {% else %}
+              <div class="col-md-9">
+                <p>No product found</p>
+              </div>
+              {% endif %}
+            </div>
+            <!-- end of product item (by Matthias)  -->
+          </div>
+          <!-- end row -->
+
+
+          <!-- pagination part of the section (by Matt)-->
+        <div class="row">
+            <div class="col-lg-12 mt-5">
+              <nav aria-label="Page navigation example">
+                {% if products.has_other_pages %}
+                <ul class="pagination">
+                  {% if products.has_previous %}
+                  <li class="page-item">
+                    <a
+                      class="page-link"
+                      href="?page={{products.previous_page_number}}"
+                      aria-label="Previous"
+                    >
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link">&laquo;</a>
+                  </li>
+                  {% endif %}
+  
+                  <!-- loop the page range, if there are more items to show -->
+                  {% for i in products.paginator.page_range %}
+                  <!-- break the page and show the page number -->
+                  {% if products.number == i %}
+                  <li class="page-item active">
+                    <a class="page-link">{{i}}</a>
+                  </li>
+                  {% else %}
+                  <li class="page-item">
+                    <a href="?page={{i}}" class="page-link">{{i}}</a>
+                  </li>
+                  {% endif %} {% endfor %} {% if products.has_next %}
+                  <li class="page-item">
+                    <a
+                      href="?page={{products.next_page_number}}"
+                      class="page-link"
+                      >&raquo;</a
+                    >
+                  </li>
+                  {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link">&raquo;</a>
+                  </li>
+                  {% endif %}
+                </ul>
+                {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- END ROW -->
+  </div>
+</section>
+
+<!-- start brand-logo -->
+<section class="client-section sm-section">
+
+</section>
+<!-- end brand-logo -->
+{% endblock content %}
