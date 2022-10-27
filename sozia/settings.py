@@ -61,7 +61,7 @@ ROOT_URLCONF = 'sozia.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,28 +77,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sozia.wsgi.application'
 
+# added by Matthias to avoid private key error
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-    
-    
     # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'erbproject',
-    #     'USER': 'postgres',
-    #     'PASSWORD': '13572468',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432',
-        
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 
+
+
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'erbproject',
+        'USER': 'postgres',
+        'PASSWORD': '8888',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 
+}
 
 
 # Password validation
@@ -131,16 +132,15 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False  
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
-STATIC_ROOT = os.path.join(BASE_DIR,'assets')
-
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
